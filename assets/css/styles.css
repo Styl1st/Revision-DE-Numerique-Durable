@@ -152,6 +152,41 @@ pre.code {
 }
 .badge-pop { animation: pop 0.5s ease forwards; }
 
+/* Bouton "demander à l'IA" sur les concepts */
+.ai-explain-btn {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-2);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.2s, transform 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+}
+/* Visible au hover du concept parent, et accessible au focus */
+.group:hover .ai-explain-btn,
+.ai-explain-btn:focus-visible {
+  opacity: 0.85;
+  transform: scale(1);
+}
+.ai-explain-btn:hover,
+.ai-explain-btn:focus-visible {
+  opacity: 1;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.ai-explain-btn:active { transform: scale(0.92); }
+
+/* Sur mobile : toujours visible (pas de hover fiable) */
+@media (hover: none), (max-width: 640px) {
+  .ai-explain-btn { opacity: 0.55; transform: scale(1); }
+  .ai-explain-btn:hover { opacity: 1; }
+}
+
 /* Custom checkbox */
 .check {
   width: 18px; height: 18px; border: 1.5px solid var(--ink-2);
@@ -468,6 +503,166 @@ html { scroll-behavior: smooth; }
   transition: all 0.15s;
 }
 .chat-sugg:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* ===== MOBILE MENU ===== */
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 90;
+  pointer-events: none;
+  visibility: hidden;
+}
+.mobile-menu.open {
+  pointer-events: auto;
+  visibility: visible;
+}
+.mobile-menu-backdrop {
+  position: absolute; inset: 0;
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.mobile-menu.open .mobile-menu-backdrop { opacity: 1; }
+
+.mobile-menu-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: min(360px, 88vw);
+  background: var(--paper);
+  border-left: 1px solid var(--line);
+  box-shadow: -10px 0 40px rgba(13,31,18,0.2);
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(.2,.8,.2,1);
+  overflow-y: auto;
+}
+.mobile-menu.open .mobile-menu-panel { transform: translateX(0); }
+
+.mobile-menu-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--bg-2), var(--paper));
+}
+
+.mobile-menu-nav {
+  flex: 1;
+  padding: 0.75rem 0.75rem 0;
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+
+.mobile-menu-link {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.85rem;
+  row-gap: 0.1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.85rem;
+  color: var(--ink);
+  text-decoration: none;
+  align-items: center;
+  transition: background 0.15s, transform 0.12s;
+}
+.mobile-menu-link:hover,
+.mobile-menu-link:focus-visible {
+  background: var(--bg-2);
+  outline: none;
+}
+.mobile-menu-link:active { transform: scale(0.98); }
+.mobile-menu-link svg {
+  grid-row: 1 / span 2;
+  color: var(--accent);
+  width: 22px; height: 22px;
+}
+.mobile-menu-link > span:nth-of-type(1) {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+.mobile-menu-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--ink-2);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+
+.mobile-menu-foot {
+  padding: 1rem 1.25rem 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.mobile-menu-action {
+  width: 100%;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s;
+}
+.mobile-menu-action:hover { opacity: 0.9; }
+
+/* Empêche le scroll de la page derrière le menu mobile */
+body.menu-open { overflow: hidden; }
+
+/* ===== AJUSTEMENTS MOBILE GLOBAUX ===== */
+@media (max-width: 640px) {
+  /* Marquee : texte plus petit */
+  .marquee .font-serif.text-3xl { font-size: 1.5rem; }
+  .marquee { gap: 2rem !important; }
+  .marquee-wrap > div:first-child { margin-bottom: 0.75rem; }
+
+  /* Module : numéro géant un peu plus petit */
+  .module-num.text-7xl { font-size: 3.5rem; line-height: 1; }
+  .module-num.text-8xl { font-size: 4rem; line-height: 1; }
+  /* Carte progression : "%" décoratif moins envahissant */
+  #dashboard .module-num.text-\[180px\] { font-size: 130px; }
+
+  /* Modules : padding interne plus serré */
+  #modulesContainer > div > button { padding: 1rem 1rem; gap: 1rem; }
+  #modulesContainer > div > button > div.module-num { width: 3.5rem; }
+  #modulesContainer .module-content { padding: 1.25rem 1rem; }
+
+  /* Bot chat : flottant + panel un peu plus compact */
+  .chat-fab { bottom: 18px; right: 18px; width: 54px; height: 54px; }
+  .chat-panel {
+    bottom: 0; right: 0; left: 0;
+    width: 100vw;
+    height: 85vh;
+    max-height: 85vh;
+    border-radius: 1.25rem 1.25rem 0 0;
+  }
+  .chat-resize { display: none; }
+
+  /* Modal auth : padding plus serré */
+  .auth-modal {
+    padding: 1.5rem 1.25rem 1.25rem;
+    border-radius: 1.25rem;
+  }
+  .auth-title { font-size: 1.6rem; }
+  .auth-avatar { width: 2.4rem; height: 2.4rem; font-size: 1.2rem; }
+  .auth-avatar-lg { width: 3.5rem; height: 3.5rem; font-size: 1.75rem; }
+
+  /* Quiz : titre question plus petit */
+  #qText { font-size: 1.25rem !important; line-height: 1.35 !important; }
+  #qAnswers .answer-btn { padding: 0.75rem 0.9rem; font-size: 0.92rem; }
+
+  /* Flashcard nav : boutons plus compacts */
+  #prevCard, #nextCard, #markKnown {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8rem;
+  }
+  #markKnown svg, #prevCard svg, #nextCard svg { width: 12px; height: 12px; }
+
+  /* Footer : empile + centre */
+  footer > div { justify-content: center; text-align: center; }
+  footer .max-w-md { margin-left: auto; margin-right: auto; }
+}
 
 /* ===== PROFILS / CONNEXION RAPIDE ===== */
 .profile-btn {
@@ -838,6 +1033,15 @@ html { scroll-behavior: smooth; }
   font-size: 0.75rem;
   color: var(--ink-2);
   font-style: italic;
+}
+
+/* Fix : .hidden doit l'emporter sur le display: flex des panneaux du chat
+   (sinon le panneau setup reste visible par-dessus la conversation) */
+.chat-setup.hidden,
+.chat-messages.hidden,
+.chat-suggestions.hidden,
+.chat-input-area.hidden {
+  display: none;
 }
 
 /* Setup modal for API key */

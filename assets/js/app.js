@@ -146,12 +146,19 @@ function renderModules() {
                 const cid = `${mod.id}-${si}-${pi}`;
                 const checked = state.conceptsChecked.includes(cid);
                 return `
-                  <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-bg2 transition group">
+                  <div class="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg hover:bg-bg2 transition group">
                     <span class="check ${checked ? 'checked' : ''}" data-cid="${cid}"></span>
-                    <div class="flex-1">
+                    <div class="flex-1 min-w-0">
                       <div class="font-medium ink mb-1">${p.k}</div>
                       <div class="text-sm ink-2 leading-relaxed">${p.v}</div>
                     </div>
+                    <button class="ai-explain-btn" data-mod="${mod.id}" data-sect="${si}" data-point="${pi}" title="Demander à l'Eco·Assistant d'approfondir ce concept" aria-label="Approfondir ce concept avec l'IA">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+                        <path d="M20 3v4"/><path d="M22 5h-4"/>
+                        <path d="M4 17v2"/><path d="M5 18H3"/>
+                      </svg>
+                    </button>
                   </div>
                 `;
               }).join('')}
@@ -170,6 +177,21 @@ function renderModules() {
       const chev = btn.querySelector('.chevron');
       content.classList.toggle('hidden');
       chev.style.transform = content.classList.contains('hidden') ? 'rotate(0)' : 'rotate(180deg)';
+    });
+  });
+  c.querySelectorAll('.ai-explain-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const modId = btn.dataset.mod;
+      const si = parseInt(btn.dataset.sect, 10);
+      const pi = parseInt(btn.dataset.point, 10);
+      const mod = MODULES.find(m => m.id === modId);
+      if (!mod) return;
+      const point = mod.sections[si]?.points[pi];
+      if (!point) return;
+      if (typeof window.askAboutConcept === 'function') {
+        window.askAboutConcept(point.k, point.v, `${mod.num} — ${mod.title}`);
+      }
     });
   });
   c.querySelectorAll('.check').forEach(chk => {
@@ -481,6 +503,52 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* =========================================================
+   MENU MOBILE
+   ========================================================= */
+(function setupMobileMenu() {
+  const menu       = document.getElementById('mobileMenu');
+  const toggleBtn  = document.getElementById('menuToggle');
+  const closeBtn   = document.getElementById('menuClose');
+  const assistant  = document.getElementById('menuAssistant');
+  if (!menu || !toggleBtn) return;
+
+  function open() {
+    menu.classList.add('open');
+    menu.setAttribute('aria-hidden', 'false');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('menu-open');
+  }
+  function close() {
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden', 'true');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    menu.classList.contains('open') ? close() : open();
+  });
+  if (closeBtn) closeBtn.addEventListener('click', close);
+
+  // Tout élément avec data-close-menu (liens nav + backdrop) ferme le menu
+  menu.querySelectorAll('[data-close-menu]').forEach(el => {
+    el.addEventListener('click', close);
+  });
+
+  // Bouton "Ouvrir l'Eco·Assistant" relaie vers le chat FAB
+  if (assistant) {
+    assistant.addEventListener('click', () => {
+      const fab = document.getElementById('chatFab');
+      if (fab) fab.click();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('open')) close();
+  });
+})();
 
 /* =========================================================
    INIT + RELOAD SUR CHANGEMENT DE PROFIL

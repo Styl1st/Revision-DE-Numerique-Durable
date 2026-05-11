@@ -48,17 +48,17 @@
 
 <!-- ============================ HEADER ============================ -->
 <header class="sticky top-0 z-30 backdrop-blur-md" style="background: color-mix(in srgb, var(--bg) 80%, transparent);">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between border-b border-line">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-lg bg-accent flex items-center justify-center">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2 border-b border-line">
+    <div class="flex items-center gap-3 min-w-0">
+      <div class="w-9 h-9 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
           <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
         </svg>
       </div>
-      <div class="leading-tight">
+      <div class="leading-tight min-w-0">
         <div class="font-serif text-xl font-medium ink">Eco·Lab</div>
-        <div class="text-[11px] uppercase tracking-widest font-mono ink-2">TI616 — Numérique Durable</div>
+        <div class="text-[11px] uppercase tracking-widest font-mono ink-2 truncate">TI616 — Numérique Durable</div>
       </div>
     </div>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium ink-2">
@@ -69,24 +69,91 @@
       <a href="#glossaire" class="hover:text-accent transition">Glossaire</a>
       <a href="#cheatsheet" class="hover:text-accent transition">Cheatsheet</a>
     </nav>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 flex-shrink-0">
       <button id="profileBtn" class="profile-btn" title="Mon profil">
         <span class="profile-btn-avatar">?</span>
       </button>
-      <button id="darkToggle" class="w-9 h-9 rounded-lg border border-line flex items-center justify-center hover:bg-bg2 transition" title="Mode sombre">
+      <button id="darkToggle" class="w-9 h-9 rounded-lg border border-line flex items-center justify-center hover:bg-bg2 transition flex-shrink-0" title="Mode sombre">
         <svg id="iconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         <svg id="iconMoon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button id="menuToggle" class="md:hidden w-9 h-9 rounded-lg border border-line flex items-center justify-center hover:bg-bg2 transition flex-shrink-0" title="Menu" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
     </div>
   </div>
 </header>
 
+<!-- ============================ MOBILE MENU ============================ -->
+<div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-backdrop" data-close-menu></div>
+  <aside class="mobile-menu-panel" role="dialog" aria-label="Menu de navigation">
+    <div class="mobile-menu-head">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
+          </svg>
+        </div>
+        <div class="leading-tight">
+          <div class="font-serif text-lg ink">Eco·Lab</div>
+          <div class="text-[10px] uppercase tracking-widest font-mono ink-2">TI616</div>
+        </div>
+      </div>
+      <button id="menuClose" class="w-9 h-9 rounded-lg border border-line flex items-center justify-center hover:bg-bg2 transition" aria-label="Fermer le menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <nav class="mobile-menu-nav">
+      <a href="#dashboard" class="mobile-menu-link" data-close-menu>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        <span>Dashboard</span>
+        <span class="mobile-menu-meta">Ma progression</span>
+      </a>
+      <a href="#modules" class="mobile-menu-link" data-close-menu>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        <span>Modules</span>
+        <span class="mobile-menu-meta">5 chapitres du cours</span>
+      </a>
+      <a href="#flashcards" class="mobile-menu-link" data-close-menu>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+        <span>Flashcards</span>
+        <span class="mobile-menu-meta">Réviser les concepts</span>
+      </a>
+      <a href="#quiz" class="mobile-menu-link" data-close-menu>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        <span>Quiz</span>
+        <span class="mobile-menu-meta">Tester mes acquis</span>
+      </a>
+      <a href="#glossaire" class="mobile-menu-link" data-close-menu>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h8M8 11h6"/></svg>
+        <span>Glossaire</span>
+        <span class="mobile-menu-meta">Tous les termes</span>
+      </a>
+      <a href="#cheatsheet" class="mobile-menu-link" data-close-menu>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
+        <span>Cheatsheet</span>
+        <span class="mobile-menu-meta">Synthèse finale</span>
+      </a>
+    </nav>
+
+    <div class="mobile-menu-foot">
+      <button id="menuAssistant" class="mobile-menu-action" data-close-menu>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Ouvrir l'Eco·Assistant
+      </button>
+    </div>
+  </aside>
+</div>
+
 <!-- ============================ HERO / DASHBOARD ============================ -->
-<section id="dashboard" class="relative max-w-7xl mx-auto px-6 pt-12 pb-20">
+<section id="dashboard" class="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16 sm:pb-20">
   <div class="grid grid-cols-12 gap-6 items-end">
     <div class="col-span-12 md:col-span-7 reveal">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-4">// Cours TI616 · 2025/2026 · Yvan Guifo</div>
-      <h1 class="font-serif text-6xl md:text-8xl leading-[0.92] ink">
+      <h1 class="font-serif text-5xl sm:text-6xl md:text-8xl leading-[0.95] sm:leading-[0.92] ink">
         Réviser le <span class="italic text-accent">numérique</span><br>
         sans <span class="relative inline-block">épuiser
           <svg class="absolute -bottom-3 left-0 w-full" height="14" viewBox="0 0 200 14" preserveAspectRatio="none">
@@ -94,26 +161,26 @@
           </svg>
         </span> la planète.
       </h1>
-      <p class="mt-8 text-lg ink-2 max-w-xl leading-relaxed">
+      <p class="mt-6 sm:mt-8 text-base sm:text-lg ink-2 max-w-xl leading-relaxed">
         Un labo de révisions interactif pour explorer le Green IT, l'éco-conception, l'optimisation du code et le Green Web. <span class="font-serif italic">Faire mieux avec moins.</span>
       </p>
-      <div class="mt-10 flex flex-wrap gap-3">
-        <a href="#modules" class="px-6 py-3 bg-accent text-white rounded-full font-medium hover:opacity-90 transition flex items-center gap-2">
+      <div class="mt-8 sm:mt-10 flex flex-wrap gap-3">
+        <a href="#modules" class="px-5 sm:px-6 py-3 bg-accent text-white rounded-full font-medium hover:opacity-90 transition flex items-center gap-2 text-sm sm:text-base">
           Commencer la révision
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a href="#flashcards" class="px-6 py-3 border border-line rounded-full font-medium hover:bg-bg2 transition">Flashcards</a>
-        <a href="#quiz" class="px-6 py-3 border border-line rounded-full font-medium hover:bg-bg2 transition">Tester mes connaissances</a>
+        <a href="#flashcards" class="px-5 sm:px-6 py-3 border border-line rounded-full font-medium hover:bg-bg2 transition text-sm sm:text-base">Flashcards</a>
+        <a href="#quiz" class="px-5 sm:px-6 py-3 border border-line rounded-full font-medium hover:bg-bg2 transition text-sm sm:text-base">Tester mes connaissances</a>
       </div>
     </div>
 
     <!-- Carte progression -->
     <div class="col-span-12 md:col-span-5 reveal">
-      <div class="bg-paper border border-line rounded-2xl p-7 relative overflow-hidden">
+      <div class="bg-paper border border-line rounded-2xl p-5 sm:p-7 relative overflow-hidden">
         <div class="absolute -top-10 -right-10 module-num text-[180px] text-accent opacity-10 select-none">%</div>
         <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-2">Ta progression</div>
-        <div class="flex items-center gap-6">
-          <div class="relative w-28 h-28 flex-shrink-0">
+        <div class="flex items-center gap-4 sm:gap-6">
+          <div class="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0">
             <svg class="w-full h-full" viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="42" fill="none" stroke="var(--bg-2)" stroke-width="8"/>
               <circle id="progressRing" class="progress-ring__circle" cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="263.89" stroke-dashoffset="263.89"/>
@@ -136,7 +203,7 @@
   </div>
 
   <!-- Marquee chiffres clés -->
-  <div class="mt-20 marquee-wrap overflow-hidden">
+  <div class="mt-12 sm:mt-20 marquee-wrap overflow-hidden">
     <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-4">Chiffres-clés à connaître par cœur</div>
     <div class="flex marquee whitespace-nowrap gap-12 ink">
       <span class="font-serif text-3xl"><span class="text-accent">3-4%</span> des émissions mondiales de GES</span>
@@ -177,13 +244,13 @@
 </section>
 
 <!-- ============================ MODULES ============================ -->
-<section id="modules" class="max-w-7xl mx-auto px-6 py-20 relative">
-  <div class="flex items-end justify-between flex-wrap gap-4 mb-12">
+<section id="modules" class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 relative">
+  <div class="flex items-end justify-between flex-wrap gap-4 mb-8 sm:mb-12">
     <div>
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-2">// Section 02</div>
-      <h2 class="font-serif text-5xl md:text-6xl ink">Les <span class="italic">5</span> modules</h2>
+      <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl ink">Les <span class="italic">5</span> modules</h2>
     </div>
-    <p class="ink-2 max-w-md">Cinq étapes du cours. Clique sur un module pour déplier son contenu, et coche les concepts au fur et à mesure que tu les maîtrises.</p>
+    <p class="ink-2 max-w-md text-sm sm:text-base">Cinq étapes du cours. Clique sur un module pour déplier son contenu, et coche les concepts au fur et à mesure que tu les maîtrises.</p>
   </div>
 
   <div id="modulesContainer" class="space-y-4">
@@ -192,12 +259,12 @@
 </section>
 
 <!-- ============================ FLASHCARDS ============================ -->
-<section id="flashcards" class="bg-bg2 py-20 relative overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="flex items-end justify-between flex-wrap gap-4 mb-12">
+<section id="flashcards" class="bg-bg2 py-14 sm:py-20 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-end justify-between flex-wrap gap-4 mb-8 sm:mb-12">
       <div>
         <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-2">// Section 03</div>
-        <h2 class="font-serif text-5xl md:text-6xl ink">Flashcards</h2>
+        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl ink">Flashcards</h2>
       </div>
       <div class="flex gap-2 flex-wrap" id="flashcardFilters">
         <button data-filter="all" class="filter-btn active px-4 py-2 rounded-full text-sm border border-line bg-paper">Tout</button>
@@ -212,7 +279,7 @@
     <div class="grid grid-cols-12 gap-6 items-start">
       <!-- Card centrale -->
       <div class="col-span-12 md:col-span-8 md:col-start-3">
-        <div class="card-3d w-full h-[420px]" id="flashcard">
+        <div class="card-3d w-full h-[360px] sm:h-[420px]" id="flashcard">
           <div class="card-inner">
             <div class="card-face front bg-paper border border-line shadow-sm cursor-pointer">
               <div class="flex items-center justify-between">
@@ -220,7 +287,7 @@
                 <span class="text-[11px] font-mono ink-2"><span id="flashIndex">1</span> / <span id="flashTotal">1</span></span>
               </div>
               <div class="flex-1 flex items-center justify-center text-center">
-                <h3 id="flashTerm" class="font-serif text-4xl md:text-5xl ink leading-tight">Terme</h3>
+                <h3 id="flashTerm" class="font-serif text-3xl sm:text-4xl md:text-5xl ink leading-tight">Terme</h3>
               </div>
               <div class="text-center text-xs ink-2 italic">clique sur la carte pour retourner →</div>
             </div>
@@ -230,7 +297,7 @@
                 <span class="text-[11px] font-mono opacity-70"><span id="flashIndex2">1</span> / <span id="flashTotal2">1</span></span>
               </div>
               <div class="flex-1 flex items-center justify-center text-center px-2">
-                <p id="flashDef" class="text-lg md:text-xl leading-relaxed">Définition</p>
+                <p id="flashDef" class="text-base sm:text-lg md:text-xl leading-relaxed">Définition</p>
               </div>
               <div class="text-center text-xs opacity-70 italic">← retourner</div>
             </div>
@@ -258,19 +325,19 @@
 </section>
 
 <!-- ============================ QUIZ ============================ -->
-<section id="quiz" class="max-w-7xl mx-auto px-6 py-20">
-  <div class="flex items-end justify-between flex-wrap gap-4 mb-12">
+<section id="quiz" class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+  <div class="flex items-end justify-between flex-wrap gap-4 mb-8 sm:mb-12">
     <div>
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-2">// Section 04</div>
-      <h2 class="font-serif text-5xl md:text-6xl ink">Quiz <span class="italic">tester ses</span> acquis</h2>
+      <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl ink">Quiz <span class="italic">tester ses</span> acquis</h2>
     </div>
     <div class="text-right">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest">Meilleur score</div>
-      <div id="quizBest" class="font-serif text-4xl text-accent">—</div>
+      <div id="quizBest" class="font-serif text-3xl sm:text-4xl text-accent">—</div>
     </div>
   </div>
 
-  <div class="bg-paper border border-line rounded-2xl p-8 md:p-12 max-w-3xl mx-auto" id="quizCard">
+  <div class="bg-paper border border-line rounded-2xl p-5 sm:p-8 md:p-12 max-w-3xl mx-auto" id="quizCard">
     <!-- État initial -->
     <div id="quizIntro" class="text-center">
       <div class="font-serif text-3xl ink mb-4">Prêt·e ?</div>
@@ -310,15 +377,15 @@
 </section>
 
 <!-- ============================ GLOSSAIRE ============================ -->
-<section id="glossaire" class="bg-bg2 py-20">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="flex items-end justify-between flex-wrap gap-4 mb-12">
+<section id="glossaire" class="bg-bg2 py-14 sm:py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-end justify-between flex-wrap gap-4 mb-8 sm:mb-12">
       <div>
         <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-2">// Section 05</div>
-        <h2 class="font-serif text-5xl md:text-6xl ink">Glossaire</h2>
+        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl ink">Glossaire</h2>
       </div>
-      <div class="relative">
-        <input id="searchInput" type="text" placeholder="Rechercher un terme..." class="bg-paper border border-line rounded-full px-5 py-2.5 pl-11 w-72 outline-none focus:ring-2 focus:ring-accent/30">
+      <div class="relative w-full sm:w-auto">
+        <input id="searchInput" type="text" placeholder="Rechercher un terme..." class="bg-paper border border-line rounded-full px-5 py-2.5 pl-11 w-full sm:w-72 outline-none focus:ring-2 focus:ring-accent/30">
         <svg class="absolute left-4 top-3 ink-2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       </div>
     </div>
@@ -328,18 +395,18 @@
 </section>
 
 <!-- ============================ CHEATSHEET ============================ -->
-<section id="cheatsheet" class="max-w-7xl mx-auto px-6 py-20">
-  <div class="flex items-end justify-between flex-wrap gap-4 mb-12">
+<section id="cheatsheet" class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+  <div class="flex items-end justify-between flex-wrap gap-4 mb-8 sm:mb-12">
     <div>
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-2">// Section 06</div>
-      <h2 class="font-serif text-5xl md:text-6xl ink">Cheatsheet <span class="italic">finale</span></h2>
+      <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl ink">Cheatsheet <span class="italic">finale</span></h2>
     </div>
-    <p class="ink-2 max-w-md">La synthèse pure : tous les concepts essentiels condensés sur une seule page. À garder sous le coude.</p>
+    <p class="ink-2 max-w-md text-sm sm:text-base">La synthèse pure : tous les concepts essentiels condensés sur une seule page. À garder sous le coude.</p>
   </div>
 
   <div class="grid grid-cols-12 gap-6">
     <!-- Bloc Green vs IT for Green -->
-    <div class="col-span-12 md:col-span-6 bg-paper border border-line rounded-2xl p-7">
+    <div class="col-span-12 md:col-span-6 bg-paper border border-line rounded-2xl p-5 sm:p-7">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-3">Distinction fondamentale</div>
       <h3 class="font-serif text-2xl ink mb-4">Green IT vs IT for Green</h3>
       <div class="space-y-4">
@@ -355,7 +422,7 @@
     </div>
 
     <!-- Bloc effets rebond -->
-    <div class="col-span-12 md:col-span-6 bg-paper border border-line rounded-2xl p-7">
+    <div class="col-span-12 md:col-span-6 bg-paper border border-line rounded-2xl p-5 sm:p-7">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-3">Le piège classique</div>
       <h3 class="font-serif text-2xl ink mb-4">Effets rebond</h3>
       <div class="space-y-3 text-sm ink-2">
@@ -366,7 +433,7 @@
     </div>
 
     <!-- Complexité -->
-    <div class="col-span-12 md:col-span-4 bg-paper border border-line rounded-2xl p-7">
+    <div class="col-span-12 md:col-span-4 bg-paper border border-line rounded-2xl p-5 sm:p-7">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-3">Choisir son algo</div>
       <h3 class="font-serif text-2xl ink mb-4">Complexités</h3>
       <table class="w-full text-sm">
@@ -384,7 +451,7 @@
     </div>
 
     <!-- Langages -->
-    <div class="col-span-12 md:col-span-4 bg-paper border border-line rounded-2xl p-7">
+    <div class="col-span-12 md:col-span-4 bg-paper border border-line rounded-2xl p-5 sm:p-7">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-3">Énergie · même algo</div>
       <h3 class="font-serif text-2xl ink mb-4">Langages</h3>
       <div class="space-y-3 text-sm">
@@ -405,7 +472,7 @@
     </div>
 
     <!-- Core Web Vitals -->
-    <div class="col-span-12 md:col-span-4 bg-paper border border-line rounded-2xl p-7">
+    <div class="col-span-12 md:col-span-4 bg-paper border border-line rounded-2xl p-5 sm:p-7">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-3">Web · Mesurer</div>
       <h3 class="font-serif text-2xl ink mb-4">Core Web Vitals</h3>
       <div class="space-y-3 text-sm">
@@ -418,7 +485,7 @@
     </div>
 
     <!-- Émissions par usage -->
-    <div class="col-span-12 md:col-span-6 bg-paper border border-line rounded-2xl p-7">
+    <div class="col-span-12 md:col-span-6 bg-paper border border-line rounded-2xl p-5 sm:p-7">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-3">Comparatif d'usages</div>
       <h3 class="font-serif text-2xl ink mb-4">Émissions par activité</h3>
       <div class="space-y-2">
@@ -430,7 +497,7 @@
     </div>
 
     <!-- PUE -->
-    <div class="col-span-12 md:col-span-6 bg-paper border border-line rounded-2xl p-7">
+    <div class="col-span-12 md:col-span-6 bg-paper border border-line rounded-2xl p-5 sm:p-7">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-3">Datacenter</div>
       <h3 class="font-serif text-2xl ink mb-4">PUE — Power Usage Effectiveness</h3>
       <div class="font-mono text-sm bg-bg2 p-3 rounded-lg ink mb-4">PUE = Énergie totale / Énergie IT</div>
@@ -444,7 +511,7 @@
     </div>
 
     <!-- Bonnes pratiques code -->
-    <div class="col-span-12 bg-paper border border-line rounded-2xl p-7">
+    <div class="col-span-12 bg-paper border border-line rounded-2xl p-5 sm:p-7">
       <div class="text-[11px] font-mono ink-2 uppercase tracking-widest mb-3">À retenir</div>
       <h3 class="font-serif text-2xl ink mb-6">Quick wins éco-conception Web</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
@@ -463,12 +530,12 @@
 
 <!-- ============================ FOOTER ============================ -->
 <footer class="border-t border-line py-10 mt-10">
-  <div class="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4 text-sm ink-2">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm ink-2">
     <div>
       <div class="font-serif text-lg ink">Eco·Lab TI616</div>
       <div class="text-xs font-mono">Cours de Yvan Guifo · Numérique Durable · 2025/2026</div>
     </div>
-    <div class="text-xs italic max-w-md text-right">
+    <div class="text-xs italic max-w-md sm:text-right">
       « Le numérique comme problème — et comme solution. À nous d'arbitrer.»
     </div>
   </div>

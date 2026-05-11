@@ -7,6 +7,7 @@ const MISTRAL_MODEL = 'mistral-small-latest'; // gratuit & performant
 const CHAT_KEY_STORAGE = 'ti616-mistral-key-v1';
 let chatHistory = []; // {role, content}
 let chatStreaming = false;
+let pendingAutoPrompt = null; // prompt à envoyer dès que la clé API est prête
 
 // Construit le contexte du cours à partir des données existantes
 function buildCourseContext() {
@@ -245,8 +246,41 @@ document.getElementById('saveApiKey').addEventListener('click', () => {
   showChatPanel('chat');
   showWelcome();
   showToast('Clé enregistrée 🔑');
-  setTimeout(() => document.getElementById('chatInput').focus(), 100);
+  // Si une question était en attente (clic sur ✨), on l'envoie maintenant
+  if (pendingAutoPrompt) {
+    const p = pendingAutoPrompt;
+    pendingAutoPrompt = null;
+    setTimeout(() => sendMessage(p), 300);
+  } else {
+    setTimeout(() => document.getElementById('chatInput').focus(), 100);
+  }
 });
+
+/* =========================================================
+   PROMPT AUTOMATIQUE depuis les modules
+   ========================================================= */
+window.askAboutConcept = function (key, value, moduleTitle) {
+  // Nettoyer le HTML de la valeur pour le prompt
+  const clean = String(value || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const ctx = moduleTitle ? `(Module : ${moduleTitle})` : '';
+  const prompt = `Peux-tu m'expliquer plus en détail le concept suivant du cours ${ctx} :
+
+**${key}**
+
+Voici la définition donnée dans le cours :
+> ${clean}
+
+Approfondis le sujet : donne des exemples concrets, le contexte, des analogies si utile, et tout ce qui peut m'aider à bien le retenir pour mon examen. Sois pédagogue mais reste synthétique.`;
+
+  openChat();
+
+  if (!getApiKey()) {
+    pendingAutoPrompt = prompt;
+    return;
+  }
+  // Laisser le panel s'ouvrir avant d'envoyer
+  setTimeout(() => sendMessage(prompt), 300);
+};
 
 document.getElementById('chatSettings').addEventListener('click', () => {
   if (confirm('Veux-tu réinitialiser ta clé API et la conversation ?')) {
